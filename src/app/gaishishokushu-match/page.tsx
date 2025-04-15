@@ -52,11 +52,14 @@ export default function GaishiShokushuMatchPage() {
         setUsage(newUsage);
         setTotalCost((prev) => prev + newUsage.costUSD);
       }
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Unknown error');
+      }
     }
+    
   };
 
   return (
