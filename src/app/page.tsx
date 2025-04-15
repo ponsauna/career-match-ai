@@ -7,7 +7,7 @@ type UsageInfo = {
   promptTokens: number;
   completionTokens: number;
   totalTokens: number;
-  costUSD: number;    // 今回のリクエストで消費した推定コスト(USD)
+  costUSD: number; // 今回のリクエストで消費した推定コスト(USD)
 };
 
 export default function Home() {
@@ -26,7 +26,7 @@ export default function Home() {
     costUSD: 0,
   });
 
-  // 累計コスト（画面をリロードすると消えます。永続化したい場合はDBなどを利用してください）
+  // 累計コスト
   const [totalCost, setTotalCost] = useState(0);
 
   // ローディング＆エラー
@@ -44,17 +44,11 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ career, jd }),
       });
-
       if (!response.ok) {
         throw new Error('ネットワークエラー');
       }
-
       const data = await response.json();
-
-      // data.result が Markdown 形式で返ってくる想定
       setResult(data.result || '');
-
-      // usage があれば取り出して state に反映
       if (data.usage) {
         const newUsage: UsageInfo = {
           promptTokens: data.usage.promptTokens || 0,
@@ -63,8 +57,6 @@ export default function Home() {
           costUSD: data.usage.costUSD || 0,
         };
         setUsage(newUsage);
-
-        // 累計コストを加算 (リロードするとリセットされます)
         setTotalCost((prev) => prev + newUsage.costUSD);
       }
     } catch (err: unknown) {
@@ -73,69 +65,85 @@ export default function Home() {
       } else {
         setError('不明なエラーが発生しました');
       }
+    } finally {
+      setLoading(false);
     }
-    
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 flex justify-center items-start">
-      <div className="max-w-3xl w-full bg-white rounded shadow p-6">
-        <h1 className="text-2xl mb-4 font-bold">職歴と求人入力フォーム</h1>
-
-        {/* 入力フォーム */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="min-h-screen bg-gray-50 flex justify-center items-center p-4 text-gray-900">
+      <div className="w-full max-w-2xl bg-white rounded-lg p-8 shadow-lg">
+        <h1 className="text-3xl font-semibold text-center mb-6">
+          職歴と求人入力フォーム
+        </h1>
+        
+        <form
+          onSubmit={handleSubmit}
+          aria-label="職歴と求人入力フォーム"
+          className="space-y-6"
+        >
           <div>
-            <label className="block text-sm font-medium" htmlFor="career">
+            <label htmlFor="career" className="block text-lg font-medium mb-2">
               職務経歴
             </label>
             <textarea
               id="career"
-              className="w-full mt-1 p-2 border border-gray-300 rounded"
-              rows={4}
+              required
               value={career}
               onChange={(e) => setCareer(e.target.value)}
+              placeholder="例: ○○社で営業として3年間勤務し..."
+              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows={5}
             />
           </div>
-
           <div>
-            <label className="block text-sm font-medium" htmlFor="jd">
+            <label htmlFor="jd" className="block text-lg font-medium mb-2">
               求人内容（JD）
             </label>
             <textarea
               id="jd"
-              className="w-full mt-1 p-2 border border-gray-300 rounded"
-              rows={4}
+              required
               value={jd}
               onChange={(e) => setJd(e.target.value)}
+              placeholder="例: 米系IT企業の営業職で、新規顧客開拓..."
+              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows={5}
             />
           </div>
-
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded"
             disabled={loading}
+            className="w-full py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition-colors"
           >
             {loading ? '解析中...' : '送信'}
           </button>
         </form>
 
-        {/* エラー表示 */}
-        {error && <div className="mt-4 text-red-600">{error}</div>}
-
-        {/* AI結果表示（Markdown） */}
-        {result && (
-          <div className="mt-6 p-4 bg-gray-50 rounded">
-            <ReactMarkdown>{result}</ReactMarkdown>
+        {error && (
+          <div className="mt-6 p-4 bg-red-100 text-red-700 rounded border border-red-300">
+            {error}
           </div>
         )}
 
-        {/* コストやトークン情報の表示 */}
-        <div className="mt-6 p-4 bg-gray-100 rounded text-sm text-gray-700">
-          <h2 className="font-bold mb-2">コスト・トークン情報</h2>
-          <p>今回のリクエスト推定コスト: <strong>${usage.costUSD.toFixed(4)}</strong></p>
-          <p>累計コスト: <strong>${totalCost.toFixed(4)}</strong></p>
+        {result && (
+          <div className="mt-8 p-6 bg-gray-100 rounded border border-gray-200">
+            <ReactMarkdown className="prose prose-base">
+              {result}
+            </ReactMarkdown>
+          </div>
+        )}
 
-          <div className="mt-2">
+        <div className="mt-8 p-6 bg-gray-100 rounded border border-gray-200">
+          <h2 className="text-xl font-bold mb-4">コスト・トークン情報</h2>
+          <p className="mb-2">
+            今回のリクエスト推定コスト:{' '}
+            <strong>${usage.costUSD.toFixed(4)}</strong>
+          </p>
+          <p className="mb-2">
+            累計コスト:{' '}
+            <strong>${totalCost.toFixed(4)}</strong>
+          </p>
+          <div className="space-y-1">
             <p>Prompt tokens: {usage.promptTokens}</p>
             <p>Completion tokens: {usage.completionTokens}</p>
             <p>Total tokens: {usage.totalTokens}</p>
