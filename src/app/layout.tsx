@@ -16,13 +16,17 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className="bg-gray-100 text-gray-900">
+        {/* ヘッダー */}
         <header className="bg-white shadow">
-          <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-            <h1 className="text-xl font-bold">
+          <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-y-2">
+            {/* ロゴ */}
+            <h1 className="text-xl font-bold text-center sm:text-left">
               <Link href="/">Career Match AI</Link>
             </h1>
+
+            {/* ナビゲーション */}
             <nav>
-              <ul className="flex space-x-6">
+              <ul className="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0 text-sm sm:text-base text-center sm:text-left">
                 <li>
                   <Link href="/" className="text-blue-600 hover:underline">
                     ホーム
@@ -42,7 +46,11 @@ export default function RootLayout({
             </nav>
           </div>
         </header>
+
+        {/* メイン */}
         <main>{children}</main>
+
+        {/* フッター */}
         <footer className="bg-white text-center py-4 mt-8 shadow">
           <p className="text-sm text-gray-500">
             © {new Date().getFullYear()} Career Match AI. All rights reserved.
