@@ -67,11 +67,14 @@ export default function Home() {
         // 累計コストを加算 (リロードするとリセットされます)
         setTotalCost((prev) => prev + newUsage.costUSD);
       }
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('不明なエラーが発生しました');
+      }
     }
+    
   };
 
   return (
