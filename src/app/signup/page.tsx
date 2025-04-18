@@ -13,7 +13,7 @@ const SignUpPage: FC = () => {
   const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setMessage('');
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { error } = await supabase.auth.signUp({ email, password });
     if (error) {
       setMessage(error.message);
     } else {
