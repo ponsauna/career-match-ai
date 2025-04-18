@@ -15,30 +15,34 @@ export default function Header() {
   };
 
   return (
-    <header>
-      <div className="container header-inner">
-        <h1 style={{ fontSize: "1.5rem", margin: 0 }}>
-          <Link href="/">Career Match AI</Link>
+    <header className="w-full bg-white shadow">
+      <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between px-4 py-2">
+        <h1 className="text-xl font-bold mb-2 sm:mb-0">
+          <Link href="/" className="hover:underline">Career Match AI</Link>
         </h1>
-        <nav>
-          <ul>
-            <li>
-              <Link href="/">ホーム</Link>
+        <nav className="w-full sm:w-auto">
+          <ul className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-center w-full">
+            <li className="w-full sm:w-auto">
+              <Link href="/" className="block px-3 py-2 rounded hover:bg-gray-100 text-center">ホーム</Link>
             </li>
-            <li>
-              <Link href="/dictionary">外資企業職種辞書</Link>
+            <li className="w-full sm:w-auto">
+              <Link href="/dictionary" className="block px-3 py-2 rounded hover:bg-gray-100 text-center">外資企業職種辞書</Link>
             </li>
-            <li>
-              <Link href="/gaishishokushu-match">外資職種マッチ</Link>
+            <li className="w-full sm:w-auto">
+              <Link href="/gaishishokushu-match" className="block px-3 py-2 rounded hover:bg-gray-100 text-center">外資職種マッチ</Link>
             </li>
-            <li>
-              <Link href="/login">ログイン</Link>
+            <li className="w-full sm:w-auto">
+              <Link href="/login" className="block px-3 py-2 rounded hover:bg-gray-100 text-center">ログイン</Link>
             </li>
-            <li>
-              <Link href="/signup">サインアップ</Link>
+            <li className="w-full sm:w-auto">
+              <Link href="/signup" className="block px-3 py-2 rounded hover:bg-gray-100 text-center">サインアップ</Link>
             </li>
-            <li>
-              <button onClick={handleLogout} style={{ background: "none", border: "none", color: "#0070f3", cursor: "pointer", padding: 0 }}>
+            <li className="w-full sm:w-auto">
+              <button
+                onClick={handleLogout}
+                className="block w-full px-3 py-2 rounded text-blue-600 hover:bg-gray-100 text-center"
+                style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+              >
                 ログアウト
               </button>
             </li>

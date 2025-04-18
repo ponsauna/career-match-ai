@@ -65,15 +65,15 @@ export default function GaishiShokushuMatchPage() {
   return (
     <div className="min-h-screen bg-gray-100 p-4 flex justify-center items-start">
       <div className="max-w-3xl w-full bg-white rounded shadow p-6">
-        <h1 className="text-2xl mb-4 font-bold">外資職種マッチ</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <h1 className="text-2xl sm:text-3xl mb-6 font-bold text-center">外資職種マッチ</h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium" htmlFor="description">
+            <label className="block text-base sm:text-lg font-medium mb-1" htmlFor="description">
               仕事内容（3000文字以内）
             </label>
             <textarea
               id="description"
-              className="w-full mt-1 p-2 border border-gray-300 rounded"
+              className="w-full mt-1 p-4 sm:p-3 border border-gray-300 rounded text-base sm:text-lg"
               rows={8}
               maxLength={3000}
               value={description}
@@ -86,7 +86,7 @@ export default function GaishiShokushuMatchPage() {
           </div>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded"
+            className="w-full sm:w-auto px-6 py-4 sm:py-3 bg-blue-600 text-white rounded font-semibold text-lg hover:bg-blue-700 focus:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition-colors"
             disabled={loading}
           >
             {loading ? '解析中...' : '送信'}
@@ -101,8 +101,8 @@ export default function GaishiShokushuMatchPage() {
           </div>
         )}
 
-        <div className="mt-6 p-4 bg-gray-100 rounded text-sm text-gray-700">
-          <h2 className="font-bold mb-2">コスト・トークン情報</h2>
+        <div className="mt-6 p-4 bg-gray-100 rounded text-base text-gray-700">
+          <h2 className="font-bold text-lg sm:text-xl mb-3 text-center">コスト・トークン情報</h2>
           <p>
             今回のリクエスト推定コスト:{" "}
             <strong>${usage.costUSD.toFixed(4)}</strong>
@@ -110,7 +110,7 @@ export default function GaishiShokushuMatchPage() {
           <p>
             累計コスト: <strong>${totalCost.toFixed(4)}</strong>
           </p>
-          <div className="mt-2">
+          <div className="mt-2 space-y-1">
             <p>Prompt tokens: {usage.promptTokens}</p>
             <p>Completion tokens: {usage.completionTokens}</p>
             <p>Total tokens: {usage.totalTokens}</p>

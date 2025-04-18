@@ -28,14 +28,14 @@ export default function LoginPage() {
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center">
       <div className="bg-white shadow-md rounded-md p-6 w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-4">ログイン</h1>
-        <form onSubmit={handleLogin} className="space-y-4">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">ログイン</h1>
+        <form onSubmit={handleLogin} className="space-y-6">
           <input
             type="email"
             placeholder="メールアドレス"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded
+            className="w-full p-4 sm:p-3 border border-gray-300 rounded text-base sm:text-lg
                        focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
@@ -44,20 +44,20 @@ export default function LoginPage() {
             placeholder="パスワード"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded
+            className="w-full p-4 sm:p-3 border border-gray-300 rounded text-base sm:text-lg
                        focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
           <button
             type="submit"
-            className="w-full py-2 bg-blue-600 text-white rounded
+            className="w-full py-4 sm:py-3 bg-blue-600 text-white rounded
                        hover:bg-blue-700 focus:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500
-                       font-semibold tracking-wide"
+                       font-semibold tracking-wide text-lg"
           >
             ログイン
           </button>
         </form>
-        {message && <p className="mt-4 text-center text-red-600">{message}</p>}
+        {message && <p className="mt-6 text-center text-red-600">{message}</p>}
       </div>
     </div>
   );
