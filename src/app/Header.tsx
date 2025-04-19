@@ -1,108 +1,103 @@
+// src/app/Header.tsx
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { createBrowserSupabase } from "../utils/supabase/client";
+import { useEffect, useState } from "react";
 
 export default function Header() {
   const router = useRouter();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // ログアウト処理
+  useEffect(() => {
+    const supabase = createBrowserSupabase();
+    // 初期セッション取得
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsLoggedIn(!!session);
+    });
+    // 認証状態が変わったら再設定
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setIsLoggedIn(!!session);
+      }
+    );
+    return () => void listener.subscription.unsubscribe();
+  }, []);
+
   const handleLogout = async () => {
     const supabase = createBrowserSupabase();
     await supabase.auth.signOut();
     router.push("/login");
   };
 
-  // メニューリスト
   const menuItems = [
-    { href: "/", label: "ホーム" },
-    { href: "/dictionary", label: "外資企業職種辞書" },
-    { href: "/gaishishokushu-match", label: "外資職種マッチ" },
-    { href: "/login", label: "ログイン" },
-    { href: "/signup", label: "サインアップ" },
+    { href: "/", label: "ホーム", show: true },
+    { href: "/dictionary", label: "外資企業職種辞書", show: true },
+    { href: "/gaishishokushu-match", label: "外資職種マッチ", show: true },
+    { href: "/login", label: "ログイン", show: !isLoggedIn },
+    { href: "/signup", label: "サインアップ", show: !isLoggedIn },
   ];
 
   return (
-    <header className="w-full bg-white shadow z-50">
-      <div className="max-w-4xl mx-auto flex items-center justify-between px-4 py-2">
-        <h1 className="text-xl font-bold">
-          <Link href="/" className="hover:underline">Career Match AI</Link>
-        </h1>
-        {/* PCメニュー */}
-        <nav className="hidden sm:block">
-          <ul className="flex flex-row gap-4 items-center">
-            {menuItems.map((item) => (
-              <li key={item.href}>
-                <Link href={item.href} className="block px-4 py-2 rounded hover:bg-gray-100 text-center">{item.label}</Link>
-              </li>
-            ))}
-            <li>
-              <button
-                onClick={handleLogout}
-                className="block px-4 py-2 rounded text-blue-600 hover:bg-gray-100 text-center"
-                style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
-              >
-                ログアウト
-              </button>
-            </li>
-          </ul>
-        </nav>
-        {/* ハンバーガーアイコン（スマホ） */}
-        <button
-          className="sm:hidden flex flex-col justify-center items-center w-10 h-10 rounded hover:bg-gray-100"
-          aria-label="メニューを開く"
-          onClick={() => setMenuOpen((prev) => !prev)}
+    <header className="sticky top-0 bg-white shadow-md z-20">
+      <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
+        {/* ロゴ */}
+        <Link
+          href="/"
+          className="text-2xl font-semibold text-gray-800 hover:text-blue-600 transition-colors"
         >
-          <span className="block w-6 h-0.5 bg-gray-800 mb-1 rounded transition-all"></span>
-          <span className="block w-6 h-0.5 bg-gray-800 mb-1 rounded transition-all"></span>
-          <span className="block w-6 h-0.5 bg-gray-800 rounded transition-all"></span>
-        </button>
-      </div>
-      {/* モバイルメニュー */}
-      {menuOpen && (
-        <div className="sm:hidden fixed inset-0 bg-black bg-opacity-40 z-50" onClick={() => setMenuOpen(false)}>
-          <nav
-            className="fixed top-0 right-0 w-64 h-full bg-white shadow-lg p-6 flex flex-col gap-4 z-50"
-            onClick={(e) => e.stopPropagation()}
+          Career Match AI
+        </Link>
+
+        {/* ナビ */}
+        <nav>
+          <ul
+            className="
+              flex flex-col gap-2
+              sm:flex-row sm:gap-6
+              items-start sm:items-center
+            "
           >
-            <button
-              className="self-end mb-4 text-2xl text-gray-600 hover:text-gray-900"
-              aria-label="メニューを閉じる"
-              onClick={() => setMenuOpen(false)}
-            >
-              ×
-            </button>
-            <ul className="flex flex-col gap-4">
-              {menuItems.map((item) => (
+            {menuItems
+              .filter(item => item.show)
+              .map(item => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="block px-4 py-2 rounded hover:bg-gray-100 text-lg"
-                    onClick={() => setMenuOpen(false)}
+                    className={`
+                      block px-2 py-1 text-sm font-medium rounded
+                      transition-colors
+                      ${
+                        pathname === item.href
+                          ? "text-blue-600 bg-blue-50"
+                          : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+                      }
+                    `}
+                    aria-current={pathname === item.href ? "page" : undefined}
                   >
                     {item.label}
                   </Link>
                 </li>
               ))}
+            {isLoggedIn && (
               <li>
                 <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    handleLogout();
-                  }}
-                  className="block px-4 py-2 rounded text-blue-600 hover:bg-gray-100 text-lg text-left"
-                  style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                  onClick={handleLogout}
+                  className="
+                    block px-2 py-1 text-sm font-medium rounded
+                    text-gray-700 hover:text-blue-600 hover:bg-gray-50
+                    transition-colors
+                  "
                 >
                   ログアウト
                 </button>
               </li>
-            </ul>
-          </nav>
-        </div>
-      )}
+            )}
+          </ul>
+        </nav>
+      </div>
     </header>
   );
 }

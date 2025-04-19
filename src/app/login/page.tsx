@@ -49,9 +49,6 @@ export default function LoginPage() {
                 required
                 autoComplete="email"
               />
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-                <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M2 6.5A2.5 2.5 0 0 1 4.5 4h15A2.5 2.5 0 0 1 22 6.5v11A2.5 2.5 0 0 1 19.5 20h-15A2.5 2.5 0 0 1 2 17.5v-11Zm1.75-.25 7.72 6.18a2.25 2.25 0 0 0 2.56 0l7.72-6.18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-              </span>
             </div>
           </div>
           <div>
@@ -67,19 +64,6 @@ export default function LoginPage() {
                 required
                 autoComplete="current-password"
               />
-              <button
-                type="button"
-                tabIndex={-1}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700"
-                onClick={() => setShowPassword((v) => !v)}
-                aria-label={showPassword ? "パスワードを隠す" : "パスワードを表示"}
-              >
-                {showPassword ? (
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M3 3l18 18M10.7 10.7A3 3 0 0 0 12 15a3 3 0 0 0 2.12-.88M9.53 9.53A3 3 0 0 1 15 12c0 .83-.34 1.58-.88 2.12M12 5c-7 0-9 7-9 7s2 7 9 7 9-7 9-7-2-7-9-7Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-                ) : (
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5"/></svg>
-                )}
-              </button>
             </div>
           </div>
           <button
