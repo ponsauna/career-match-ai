@@ -9,15 +9,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 const supabase = createBrowserSupabase();
 
-export default function LoginPage() {
+function LoginPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [showPassword, setShowPassword] = useState(false);         // ← setter を使う
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState<string>("");
 
-  // ログイン処理
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setMessage("");
@@ -37,9 +36,8 @@ export default function LoginPage() {
   };
 
   return (
-    <Suspense>
-      <div className="min-h-[70vh] flex flex-col items-center justify-center bg-gray-50 px-4">
-        <div className="bg-white shadow-md rounded-lg p-4 sm:p-8 w-full max-w-md">
+    <div className="min-h-[70vh] flex flex-col items-center justify-center bg-gray-50 px-4">
+      <div className="bg-white shadow-md rounded-lg p-4 sm:p-8 w-full max-w-md">
         {/* ログイン必須メッセージ */}
         {searchParams.get("redirect") && (
           <div className="mb-4 p-3 bg-yellow-50 text-yellow-800 border border-yellow-300 rounded text-center text-sm font-semibold">
@@ -128,6 +126,13 @@ export default function LoginPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginPageContent />
     </Suspense>
   );
 }
