@@ -6,7 +6,7 @@ export default function DictionaryPage() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-8 bg-gray-50 min-h-screen">
       <h1 className="text-2xl sm:text-3xl font-bold text-center mb-8 leading-snug">
-        外資系企業でよく使われる職種用語辞書
+        外資系企業で使われる職種用語辞書
       </h1>
 
       {Object.entries(categorizedDictionary).map(([category, entries]) => (
