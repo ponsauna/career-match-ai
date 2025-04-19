@@ -79,22 +79,22 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 flex justify-center items-start text-gray-900">
-      <div className="max-w-3xl w-full bg-white rounded-md shadow p-6 space-y-6">
-        <h1 className="text-2xl sm:text-3xl font-bold text-center">職歴と求人入力フォーム</h1>
+      <div className="max-w-4xl w-full bg-white rounded-md shadow p-8 space-y-8">
+        <h1 className="text-3xl font-bold text-center mb-4">職歴と求人入力フォーム</h1>
 
         {/* 入力フォーム */}
-        <form onSubmit={handleSubmit} className="space-y-6" aria-label="職歴と求人入力フォーム">
+        <form onSubmit={handleSubmit} className="space-y-8" aria-label="職歴と求人入力フォーム">
           <div>
-            <label className="block text-base sm:text-lg font-medium mb-1" htmlFor="career">
+            <label className="block text-lg font-medium mb-2" htmlFor="career">
               職務経歴
             </label>
             <textarea
               id="career"
               required
-              className="w-full p-4 sm:p-3 border border-gray-300 rounded-md
+              className="w-full p-6 border border-gray-300 rounded-md
                          focus:outline-none focus:ring-2 focus:ring-blue-600
-                         focus:ring-offset-2 focus:ring-offset-white text-base sm:text-lg"
-              rows={6}
+                         focus:ring-offset-2 focus:ring-offset-white text-lg resize-vertical min-h-[180px]"
+              rows={8}
               placeholder="例: ○○社で営業として3年間勤務し、売上目標達成率120%を実現..."
               value={career}
               onChange={(e) => setCareer(e.target.value)}
@@ -102,16 +102,16 @@ export default function Home() {
           </div>
 
           <div>
-            <label className="block text-base sm:text-lg font-medium mb-1" htmlFor="jd">
+            <label className="block text-lg font-medium mb-2" htmlFor="jd">
               求人内容（JD）
             </label>
             <textarea
               id="jd"
               required
-              className="w-full p-4 sm:p-3 border border-gray-300 rounded-md
+              className="w-full p-6 border border-gray-300 rounded-md
                          focus:outline-none focus:ring-2 focus:ring-blue-600
-                         focus:ring-offset-2 focus:ring-offset-white text-base sm:text-lg"
-              rows={6}
+                         focus:ring-offset-2 focus:ring-offset-white text-lg resize-vertical min-h-[180px]"
+              rows={8}
               placeholder="例: 米系IT企業の営業職で、新規顧客開拓・既存顧客対応を担当..."
               value={jd}
               onChange={(e) => setJd(e.target.value)}
@@ -121,10 +121,10 @@ export default function Home() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full sm:w-auto px-6 py-4 sm:py-3 rounded-md bg-blue-700 text-white font-semibold
+            className="w-full px-8 py-5 rounded-md bg-blue-700 text-white font-semibold
                        hover:bg-blue-800 focus:bg-blue-800 focus:outline-none
                        focus:ring-2 focus:ring-blue-600 focus:ring-offset-2
-                       focus:ring-offset-white transition-colors text-lg"
+                       focus:ring-offset-white transition-colors text-xl"
           >
             {loading ? '解析中...' : '送信'}
           </button>
