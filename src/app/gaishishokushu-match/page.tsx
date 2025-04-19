@@ -64,7 +64,7 @@ export default function GaishiShokushuMatchPage() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 flex justify-center items-start">
-      <div className="max-w-3xl w-full bg-white rounded shadow p-6">
+      <div className="max-w-3xl w-full bg-white rounded shadow p-4 sm:p-6">
         <h1 className="text-2xl sm:text-3xl mb-6 font-bold text-center">外資職種マッチ</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>

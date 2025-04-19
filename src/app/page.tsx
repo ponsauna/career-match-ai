@@ -79,7 +79,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 flex justify-center items-start text-gray-900">
-      <div className="max-w-4xl w-full bg-white rounded-md shadow p-8 space-y-8">
+      <div className="max-w-4xl w-full bg-white rounded-md shadow p-4 sm:p-8 space-y-8">
         <h1 className="text-3xl font-bold text-center mb-4">職歴と求人入力フォーム</h1>
 
         {/* 入力フォーム */}

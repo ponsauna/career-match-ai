@@ -30,7 +30,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center bg-gray-50 px-4">
-      <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
+      <div className="bg-white shadow-md rounded-lg p-4 sm:p-8 w-full max-w-md">
         <h1 className="text-3xl font-bold mb-6 text-center">ログイン</h1>
 
         {/* ナビゲーション */}
