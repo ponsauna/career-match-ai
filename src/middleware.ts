@@ -39,9 +39,7 @@ export async function middleware(req: NextRequest) {
 
   // ④ 未ログインならログインページへ
   if (!session) {
-    const redirectTo = req.nextUrl.pathname + req.nextUrl.search
     const loginUrl = new URL('/login', req.url)
-    loginUrl.searchParams.set('redirect', redirectTo)
     return NextResponse.redirect(loginUrl)
   }
 

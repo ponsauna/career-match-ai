@@ -5,10 +5,13 @@ import React, { useState, FormEvent } from "react";
 import { createBrowserSupabase } from "@/utils/supabase/client";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";  // 👁 アイコン用
+import { useRouter, useSearchParams } from "next/navigation";
 
 const supabase = createBrowserSupabase();
 
 export default function LoginPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);         // ← setter を使う
@@ -24,13 +27,24 @@ export default function LoginPage() {
       setMessage(error.message);
     } else {
       setMessage("ログイン成功！");
-      // TODO: 必要ならここで router.push('/') など
+      const redirect = searchParams.get("redirect");
+      if (redirect && redirect !== "/login") {
+        router.push(redirect);
+      } else {
+        router.push("/");
+      }
     }
   };
 
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center bg-gray-50 px-4">
       <div className="bg-white shadow-md rounded-lg p-4 sm:p-8 w-full max-w-md">
+        {/* ログイン必須メッセージ */}
+        {searchParams.get("redirect") && (
+          <div className="mb-4 p-3 bg-yellow-50 text-yellow-800 border border-yellow-300 rounded text-center text-sm font-semibold">
+            このページを閲覧するにはログインが必要です
+          </div>
+        )}
         <h1 className="text-3xl font-bold mb-6 text-center">ログイン</h1>
 
         {/* ナビゲーション */}

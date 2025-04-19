@@ -37,7 +37,7 @@ export default function Header() {
     { href: "/dictionary", label: "外資企業職種辞書", show: true },
     { href: "/gaishishokushu-match", label: "外資職種マッチ", show: true },
     { href: "/login", label: "ログイン", show: !isLoggedIn },
-    { href: "/signup", label: "サインアップ", show: !isLoggedIn },
+    // サインアップは非表示
   ];
 
   return (
@@ -66,6 +66,14 @@ export default function Header() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
+                    onClick={e => {
+                      if (!isLoggedIn && item.href !== "/login") {
+                        e.preventDefault();
+                        if (window.confirm("このページを閲覧するにはログインが必要です。ログインページへ移動しますか？")) {
+                          router.push("/login?redirect=" + item.href);
+                        }
+                      }
+                    }}
                     className={`
                       block px-2 py-1 text-sm font-medium rounded
                       transition-colors
