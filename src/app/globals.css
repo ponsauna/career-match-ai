@@ -3,6 +3,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* スマホで横スクロールを防ぐため、左右に30pxパディングを追加 */
+@media (max-width: 640px) {
+  body {
+    padding-left: 30px;
+    padding-right: 30px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+}
+
 /* ===== カスタムグローバルスタイル ===== */
 
 /* リストのデフォルトマーカーを消去 */
