@@ -1,8 +1,9 @@
 import { categorizedDictionary } from "../data";
 import Link from "next/link";
 
-export default function DictionaryTermPage({ params }: { params: { term: string } }) {
-  const decodedTerm = decodeURIComponent(params.term);
+export default async function DictionaryTermPage({ params }: { params: Promise<{ term: string }> }) {
+  const { term } = await params;
+  const decodedTerm = decodeURIComponent(term);
 
   // termを検索
   let foundEntry: { term: string; description: string } | null = null;
