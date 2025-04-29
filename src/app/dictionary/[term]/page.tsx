@@ -1,11 +1,7 @@
 import { categorizedDictionary } from "../data";
 import Link from "next/link";
 
-type Props = {
-  params: { term: string };
-};
-
-export default function DictionaryTermPage({ params }: Props) {
+export default function DictionaryTermPage({ params }: { params: { term: string } }) {
   const decodedTerm = decodeURIComponent(params.term);
 
   // termを検索
