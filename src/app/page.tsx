@@ -119,7 +119,7 @@ export default function Home() {
           </div>
 
           <button
-            type={"submit" as "submit"}
+            type={"submit" as const}
             disabled={loading}
             className="w-full px-8 py-5 rounded-md bg-blue-700 text-white font-semibold
                        hover:bg-blue-800 focus:bg-blue-800 focus:outline-none

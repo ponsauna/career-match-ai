@@ -93,7 +93,7 @@ function LoginPageContent() {
               />
               {/* 👁 アイコンボタン */}
               <button
-                type={"button" as "button"}
+                type={"button" as const}
                 onClick={() => setShowPassword((prev) => !prev)}
                 className="absolute inset-y-0 right-4 flex items-center"
                 aria-label={showPassword ? "パスワードを隠す" : "パスワードを表示する"}
@@ -105,7 +105,7 @@ function LoginPageContent() {
 
           {/* 送信 */}
           <button
-            type={"submit" as "submit"}
+            type={"submit" as const}
             className="w-full py-5 bg-blue-600 text-white rounded font-semibold tracking-wide text-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
           >
             ログイン
