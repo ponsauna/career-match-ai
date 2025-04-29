@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { categorizedDictionary } from '../dictionary/data';
-import Link from 'next/link';
 
 type UsageInfo = {
   promptTokens: number;
@@ -25,7 +24,7 @@ export default function GaishiShokushuMatchPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -139,7 +138,7 @@ export default function GaishiShokushuMatchPage() {
               maxLength={3000}
               placeholder="例：担当している業務内容、扱っている商材やサービス、顧客層、営業スタイル（新規/既存）、チーム規模、使っているツールやスキルなどを具体的に記載してください。例：『SaaSプロダクトの新規営業、法人顧客向け、5名チーム、Salesforce使用』"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
             />
             {/* 文字数カウンター */}
             <div className="text-right text-sm text-gray-500 mt-1">
@@ -147,7 +146,7 @@ export default function GaishiShokushuMatchPage() {
             </div>
           </div>
           <button
-            type="submit"
+            type={"submit" as "submit"}
             className="w-full sm:w-auto px-6 py-4 sm:py-3 bg-blue-600 text-white rounded font-semibold text-lg hover:bg-blue-700 focus:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition-colors"
             disabled={loading}
           >
@@ -161,7 +160,7 @@ export default function GaishiShokushuMatchPage() {
           <div className="mt-6 p-4 bg-gray-50 rounded">
             <ReactMarkdown
               components={{
-                a: ({ href, children }) => (
+                a: ({ href, children }: { href?: string; children?: React.ReactNode }) => (
                   <a
                     href={href}
                     className="text-blue-600 underline hover:text-blue-800 transition-colors"

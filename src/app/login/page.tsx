@@ -68,7 +68,7 @@ function LoginPageContent() {
               id="email"
               placeholder="your@email.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               className="w-full p-5 border border-gray-300 rounded text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
               autoComplete="email"
@@ -86,14 +86,14 @@ function LoginPageContent() {
                 id="password"
                 placeholder="パスワード"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                 className="w-full p-5 pr-14 border border-gray-300 rounded text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
                 autoComplete="current-password"
               />
               {/* 👁 アイコンボタン */}
               <button
-                type="button"
+                type={"button" as "button"}
                 onClick={() => setShowPassword((prev) => !prev)}
                 className="absolute inset-y-0 right-4 flex items-center"
                 aria-label={showPassword ? "パスワードを隠す" : "パスワードを表示する"}
@@ -105,7 +105,7 @@ function LoginPageContent() {
 
           {/* 送信 */}
           <button
-            type="submit"
+            type={"submit" as "submit"}
             className="w-full py-5 bg-blue-600 text-white rounded font-semibold tracking-wide text-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
           >
             ログイン

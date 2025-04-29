@@ -97,7 +97,7 @@ export default function Home() {
               rows={8}
               placeholder="例: ○○社で営業として3年間勤務し、売上目標達成率120%を実現..."
               value={career}
-              onChange={(e) => setCareer(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setCareer(e.target.value)}
             />
           </div>
 
@@ -114,12 +114,12 @@ export default function Home() {
               rows={8}
               placeholder="例: 米系IT企業の営業職で、新規顧客開拓・既存顧客対応を担当..."
               value={jd}
-              onChange={(e) => setJd(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setJd(e.target.value)}
             />
           </div>
 
           <button
-            type="submit"
+            type={"submit" as "submit"}
             disabled={loading}
             className="w-full px-8 py-5 rounded-md bg-blue-700 text-white font-semibold
                        hover:bg-blue-800 focus:bg-blue-800 focus:outline-none

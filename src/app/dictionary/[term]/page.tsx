@@ -1,5 +1,5 @@
 import { categorizedDictionary } from "../data";
-import { notFound } from "next/navigation";
+import Link from "next/link";
 
 type Props = {
   params: { term: string };
@@ -30,9 +30,9 @@ export default function DictionaryTermPage({ params }: Props) {
           <p className="text-lg text-gray-700 mb-2">
             「{decodedTerm}」に該当する職種がありません。
           </p>
-          <a href="/dictionary" className="text-blue-600 hover:underline">
+          <Link href="/dictionary" className="text-blue-600 hover:underline">
             辞書一覧に戻る
-          </a>
+          </Link>
         </div>
       </main>
     );
@@ -44,9 +44,9 @@ export default function DictionaryTermPage({ params }: Props) {
         <h1 className="text-2xl font-bold mb-4">{foundEntry.term}</h1>
         <div className="mb-2 text-gray-600">カテゴリ: <span className="font-semibold">{foundCategory}</span></div>
         <div className="text-lg text-gray-800 mb-6">{foundEntry.description}</div>
-        <a href="/dictionary" className="text-blue-600 hover:underline">
+        <Link href="/dictionary" className="text-blue-600 hover:underline">
           辞書一覧に戻る
-        </a>
+        </Link>
       </div>
     </main>
   );
