@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { categorizedDictionary } from '../dictionary/data';
+import Link from 'next/link';
 
 type UsageInfo = {
   promptTokens: number;
@@ -62,6 +64,65 @@ export default function GaishiShokushuMatchPage() {
     
   };
 
+  // 職種名をリンクに変換する関数
+  // 全角スペース→半角スペース、全角括弧→半角括弧、前後空白除去
+  function normalize(str: string): string {
+    return str
+      .replace(/　/g, " ")
+      .replace(/[（）]/g, (s) => (s === "（" ? "(" : s === "）" ? ")" : s))
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function replaceTermsWithLinks(text: string): string {
+    // すべてのtermをリストアップ
+    const terms: string[] = [];
+    Object.values(categorizedDictionary).forEach((entries) => {
+      entries.forEach((entry) => {
+        terms.push(entry.term);
+      });
+    });
+    // 長いtermから順に置換（部分一致防止）
+    terms.sort((a, b) => b.length - a.length);
+
+    // 正規化したtermのMap
+    const normalizedTermMap = new Map<string, string>();
+    terms.forEach((term) => {
+      normalizedTermMap.set(normalize(term), term);
+    });
+
+    // テキスト内の単語を単語ごとに分割して置換
+    // ただし、職種名は複数単語なので、全体を走査して一致部分を置換
+    let replaced = text;
+
+    // すでにリンク化されている部分は除外
+    // すべてのtermについて、正規化して一致する部分をリンク化
+    normalizedTermMap.forEach((originalTerm, normTerm) => {
+      // termが正規表現的に特殊文字を含む場合に備えエスケープ
+      const escaped = normTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      // 既にリンク化されていない場合のみ置換
+      replaced = replaced.replace(
+        new RegExp(`(?<!\\[)${escaped}(?!\\])`, 'g'),
+        `[${originalTerm}](/dictionary/${encodeURIComponent(originalTerm)})`
+      );
+    });
+
+    // さらに、テキスト内の各行についてもtrimして再度置換（改行混入対策）
+    replaced = replaced
+      .split('\n')
+      .map((line) => {
+        const normLine = normalize(line);
+        if (normalizedTermMap.has(normLine)) {
+          const originalTerm = normalizedTermMap.get(normLine)!;
+          return `[${originalTerm}](/dictionary/${encodeURIComponent(originalTerm)})`;
+        }
+        return line;
+      })
+      .join('\n');
+
+    return replaced;
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 p-4 flex justify-center items-start">
       <div className="max-w-3xl w-full bg-white rounded shadow p-4 sm:p-6">
@@ -76,6 +137,7 @@ export default function GaishiShokushuMatchPage() {
               className="w-full mt-1 p-4 sm:p-3 border border-gray-300 rounded text-base sm:text-lg"
               rows={8}
               maxLength={3000}
+              placeholder="例：担当している業務内容、扱っている商材やサービス、顧客層、営業スタイル（新規/既存）、チーム規模、使っているツールやスキルなどを具体的に記載してください。例：『SaaSプロダクトの新規営業、法人顧客向け、5名チーム、Salesforce使用』"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -97,7 +159,22 @@ export default function GaishiShokushuMatchPage() {
 
         {result && (
           <div className="mt-6 p-4 bg-gray-50 rounded">
-            <ReactMarkdown>{result}</ReactMarkdown>
+            <ReactMarkdown
+              components={{
+                a: ({ href, children }) => (
+                  <a
+                    href={href}
+                    className="text-blue-600 underline hover:text-blue-800 transition-colors"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {children}
+                  </a>
+                ),
+              }}
+            >
+              {replaceTermsWithLinks(result)}
+            </ReactMarkdown>
           </div>
         )}
 

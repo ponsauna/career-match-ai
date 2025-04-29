@@ -29,19 +29,25 @@ export async function POST(request: Request) {
 
     // 高精度なプロンプト作成
     const prompt = `
-あなたは外資系企業の採用コンサルタントです。以下の「仕事内容」を読み、外資系企業で実際に採用で使われているポジション名を、下記の候補リストから3～5件選んでください。
-また、記入された仕事内容がどのポジションに最も適しているか、簡潔に要約してください。
+You are a bilingual JP/EN recruitment consultant for global tech/SaaS firms.
 
-回答は以下のMarkdown形式に従って出力してください。
+▼ TASK
+1. Read the 【仕事内容】 below.
+2. Choose **exactly 3–5 titles** from the 【候補リスト】 that fit the duties.  
+   ✖️ Never invent new titles.  
+3. Return *only* the Markdown block shown under “OUTPUT FORMAT”.  
+   • Keep the summary ("ポジション適合要約") in concise Japanese, **120 文字以内**.  
+   • Do not add any other text, code-fences, or keys.
 
+▼ OUTPUT FORMAT
 \`\`\`md
 ## 【提案された外資系ポジション】
-- 1: （例: AE (Account Executive)）
-- 2: （例: Product Specialist）
-- 3: （例: Marketing Manager）
+- 1: <Title>
+- 2: <Title>
+- 3: <Title>
 
 ## 【ポジション適合要約】
-- …（要約を記入）
+- <120 字以内の日本語要約>
 \`\`\`
 
 【候補リスト】  

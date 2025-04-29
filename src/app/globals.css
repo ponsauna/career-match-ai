@@ -1,30 +1,49 @@
-/* ===== Tailwind Directives ===== */
+/* 必ずこの順番で読み込む */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* スマホで横スクロールを防ぐため、左右に30pxパディングを追加 */
+/* ---------------- グローバル調整 ---------------- */
 @media (max-width: 640px) {
   body {
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 1.5rem;   /* 24px */
+    padding-right: 1.5rem;
     box-sizing: border-box;
-    overflow-x: hidden;
   }
 }
 
-/* ===== カスタムグローバルスタイル ===== */
+/* ---------------- カード用スタイル ---------------- */
+@layer components {
+  /* === 親カテゴリー用カード === */
+  .card-category {
+    /* 角丸：xl はデフォルト値で必ず存在 */
+    @apply rounded-xl bg-white/80 backdrop-blur-md ring-1 ring-gray-300
+           shadow-xl p-10 transition-shadow duration-300;
+  }
 
-/* リストのデフォルトマーカーを消去 */
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  /* 640px 以上でパディングを 3rem に */
+  @media (min-width: 640px) {
+    .card-category { @apply p-12; }
+  }
+
+  /* === 個別用語カード === */
+  .card-term {
+    @apply rounded-lg bg-white/70 backdrop-blur-lg ring-1 ring-gray-300
+           shadow-md p-6 transform-gpu transition duration-300
+           hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  /* hover 時の発光リング */
+  .card-term:hover .card-outline { @apply ring-indigo-300; }
+
+  /* hover エフェクト用透明アウトライン */
+  .card-outline {
+    @apply pointer-events-none absolute inset-0 rounded-lg
+           ring-1 ring-transparent;
+  }
 }
 
-/* a の下線を消す */
-a {
-  @apply no-underline;
+/* ---------------- 背景グラデーション ---------------- */
+body {
+  @apply bg-gradient-to-br from-indigo-50 via-white to-pink-50;
 }
-
-/* html, body の背景色やフォント色は layout.tsx の <body> にクラスで指定 */

@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   // ▼ JSX / TSX / MDX が存在するフォルダをすべて列挙
-  content: ['./src/app/**/*.{js,ts,jsx,tsx,mdx}'],
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
 
   // ▼ デフォルト値を壊さないように extend だけ使う
   theme: {
