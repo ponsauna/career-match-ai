@@ -1,7 +1,7 @@
 // src/app/login/page.tsx
 'use client';
 
-import React, { useState, FormEvent, Suspense } from "react";
+import React, { useState, FormEvent, Suspense, useEffect } from "react";
 import { createBrowserSupabase } from "@/utils/supabase/client";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";  // 👁 アイコン用
@@ -26,14 +26,18 @@ function LoginPageContent() {
       setMessage(error.message);
     } else {
       setMessage("ログイン成功！");
-      const redirect = searchParams.get("redirect");
-      if (redirect && redirect !== "/login") {
-        router.push(redirect);
-      } else {
-        router.push("/");
-      }
+      // router.pushはuseEffectで実行
     }
   };
+
+  // ログイン成功時に自動でHomeへ遷移
+  useEffect(() => {
+    if (message === "ログイン成功！") {
+      setTimeout(() => {
+        router.push("/");
+      }, 500); // 0.5秒後に遷移（即時でもOK）
+    }
+  }, [message, router]);
 
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center bg-gray-50 px-4">
